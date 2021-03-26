@@ -13,10 +13,12 @@ namespace DBDiff {
     class Program {
         static void Main(string[] args) {
             //if (args.Length > 0) {
-                ExportSql es = new ExportSql();
-                //es.CreateFiles(args[0]);
-                es.CreateFiles("test");
-           // }
+            ExportSql es = new ExportSql();
+            //es.CreateFiles(args[0]);
+            es.CreateFiles("qdmsweb_dev");
+            es.CreateFiles("createmaster_dev");
+
+            // }
         }
     }
 
@@ -41,7 +43,7 @@ namespace DBDiff {
             da.Fill(dt); //get tables
 
             if (dt.Rows.Count > 0) {
-                
+
                 CheckDirectory(dbName + "\\" + type);
 
                 foreach (DataRow dr in dt.Rows) {
@@ -62,6 +64,12 @@ namespace DBDiff {
                             command.Parameters.AddWithValue("@includeDBName", false);
                             colName = "TableScript";
                             break;
+                        case "Types":
+                            command.CommandText = "dbo.sp_helptypes";
+                            command.Parameters.AddWithValue("@schemaName", names[0]);
+                            command.Parameters.AddWithValue("@typeName", names[1]);
+                            colName = "SqlCreateUdt";
+                            break;
                         case "Views":
                         case "Procedures":
                             command.CommandText = "sp_helptext";
@@ -80,14 +88,20 @@ namespace DBDiff {
                         }
 
                         string sqlScript = FormatSql(sb.ToString()); //format sql
-                        File.WriteAllText(Environment.CurrentDirectory + "\\Files\\" + dbName + "\\"+ type +"\\" + name + ".sql", sqlScript);
+                        File.WriteAllText(Environment.CurrentDirectory + "\\Files\\" + dbName + "\\" + type + "\\" + name + ".sql", sqlScript);
                     }
                 }
             };
         }
 
-        public void CheckSpHelp(SqlConnection conn) {
-            SqlCommand command = new SqlCommand(Resource1.sp_helptable_exists, conn);
+        public void CheckSprocExists(SqlConnection conn, string sprocName, string sprocSql) {
+
+            string[] arr = sprocName.Split('.');
+            string sql = Resource1.sprocExistsSql.Replace("@sprocName@", arr[1]);
+            sql = sql.Replace("@schema@", arr[0]);
+
+
+            SqlCommand command = new SqlCommand(sql, conn);
             SqlDataAdapter da = new SqlDataAdapter(command);
             DataTable dt = new DataTable();
             da.Fill(dt);
@@ -95,7 +109,7 @@ namespace DBDiff {
                 DataRow dr = dt.Rows[0];
                 int sprocExists = Convert.ToInt32(dr["sprocExists"]);
                 if (sprocExists == 0) {
-                    command.CommandText = Resource1.sp_helptable;
+                    command.CommandText = sprocSql;
                     command.ExecuteNonQuery();
                 }
             }
@@ -106,9 +120,12 @@ namespace DBDiff {
             using (SqlConnection conn = new SqlConnection(connectionString)) {
                 conn.Open();
 
-                CheckSpHelp(conn);
+                CheckSprocExists(conn, "dbo.sp_helptypes", Resource1.sp_helptypes);
+                CheckSprocExists(conn, "dbo.sp_helptable", Resource1.sp_helptable);
+
                 CheckDirectory(dbName); //create directories
 
+                ProcessType(conn, dbName, Resource1.Types, "Types");
                 ProcessType(conn, dbName, Resource1.Tables, "Tables");
                 ProcessType(conn, dbName, Resource1.Procedures, "Procedures");
                 ProcessType(conn, dbName, Resource1.Views, "Views");

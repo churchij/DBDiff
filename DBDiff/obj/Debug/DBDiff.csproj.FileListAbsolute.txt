@@ -1,0 +1,11 @@
+C:\Git\DBDiff\DBDiff\bin\Debug\DBDiff.exe.config
+C:\Git\DBDiff\DBDiff\bin\Debug\DBDiff.exe
+C:\Git\DBDiff\DBDiff\bin\Debug\DBDiff.pdb
+C:\Git\DBDiff\DBDiff\bin\Debug\PoorMansTSqlFormatterLib35.dll
+C:\Git\DBDiff\DBDiff\obj\Debug\DBDiff.csprojAssemblyReference.cache
+C:\Git\DBDiff\DBDiff\obj\Debug\DBDiff.Resource1.resources
+C:\Git\DBDiff\DBDiff\obj\Debug\DBDiff.csproj.GenerateResource.cache
+C:\Git\DBDiff\DBDiff\obj\Debug\DBDiff.csproj.CoreCompileInputs.cache
+C:\Git\DBDiff\DBDiff\obj\Debug\DBDiff.csproj.CopyComplete
+C:\Git\DBDiff\DBDiff\obj\Debug\DBDiff.exe
+C:\Git\DBDiff\DBDiff\obj\Debug\DBDiff.pdb

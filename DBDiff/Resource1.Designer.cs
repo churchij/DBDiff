@@ -19,7 +19,7 @@ namespace DBDiff {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resource1 {
@@ -114,6 +114,47 @@ namespace DBDiff {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CREATE PROCEDURE dbo.sp_helptypes
+        ///(
+        ///	@schemaName VARCHAR(255),
+        ///	@typeName VARCHAR(255) 
+        ///)
+        ///
+        ///AS
+        ///
+        ///SELECT 
+        ///      sch.name AS UDT_SCHEMA_NAME 
+        ///     ,userDefinedTypes.name AS UDT_TYPE_NAME 
+        ///
+        ///    ,
+        ///    --N&apos;IF NOT EXISTS (SELECT * FROM sys.types st JOIN sys.schemas ss ON st.schema_id = ss.schema_id WHERE st.name = N&apos;&apos;&apos; + REPLACE(userDefinedTypes.name, &apos;&apos;&apos;&apos;, &apos;&apos;&apos;&apos;&apos;&apos;) + N&apos;&apos;&apos; AND ss.name = N&apos;&apos;&apos; + REPLACE(sch.name, &apos;&apos;&apos;&apos;, &apos;&apos;&apos;&apos;&apos;&apos;) + N&apos;&apos;&apos;) &apos;
+        ///    --+ NCHAR(13) + NCHAR(10) 
+        ///    --+
+        ///    CASE WHEN userDefinedTy [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sp_helptypes {
+            get {
+                return ResourceManager.GetString("sp_helptypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IF EXISTS (SELECT s.name + &apos;.&apos; + p.name FROM sys.procedures AS p INNER JOIN sys.schemas AS s ON s.schema_id = p.schema_id WHERE s.name = &apos;@schema@&apos; AND p.name = N&apos;@sprocName@&apos;)
+        ///	BEGIN
+        ///		SELECT 1 AS sprocExists
+        ///	END
+        ///ELSE
+        ///	BEGIN
+        ///	    SELECT 0 AS sprocExists
+        ///	END.
+        /// </summary>
+        internal static string sprocExistsSql {
+            get {
+                return ResourceManager.GetString("sprocExistsSql", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SELECT s.name + &apos;.&apos; + t.name AS name
         ///FROM
         ///	sys.tables AS t
@@ -124,6 +165,20 @@ namespace DBDiff {
         internal static string Tables {
             get {
                 return ResourceManager.GetString("Tables", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT s.name + &apos;.&apos; + t.name AS name
+        ///FROM
+        ///	sys.types AS t
+        ///	INNER JOIN sys.schemas AS s ON s.schema_id = t.schema_id
+        ///WHERE (is_user_defined = 1)
+        ///ORDER BY s.name + &apos;&apos; + t.name.
+        /// </summary>
+        internal static string Types {
+            get {
+                return ResourceManager.GetString("Types", resourceCulture);
             }
         }
         
